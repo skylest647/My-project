@@ -1,48 +1,68 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class SubwayPlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
+    public float forwardSpeed = 10f;
+    public float laneDistance = 4f; // distance between lanes
+    public float sideSpeed = 10f;
     public float jumpForce = 7f;
+    public float gravity = -20f;
 
-    [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
-    private Rigidbody rb;
-    private bool isGrounded;
+    private CharacterController controller;
     private Vector3 moveDirection;
+    private int desiredLane = 1; // 0 = left, 1 = middle, 2 = right
+    private float verticalVelocity;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        // --- Ground Check ---
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        // Always move forward
+        moveDirection.z = forwardSpeed;
 
-        // --- Movement Input ---
-        float moveX = Input.GetAxis("Horizontal"); // A/D or Left/Right
-        float moveZ = Input.GetAxis("Vertical");   // W/S or Up/Down
-
-        moveDirection = transform.right * moveX + transform.forward * moveZ;
-
-        // --- Jump ---
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        // --- Lane Switching ---
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            desiredLane = Mathf.Max(0, desiredLane - 1);
         }
-    }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            desiredLane = Mathf.Min(2, desiredLane + 1);
+        }
 
-    void FixedUpdate()
-    {
-        // --- Apply Movement ---
-        Vector3 velocity = moveDirection * moveSpeed;
-        Vector3 rbVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
-        rb.linearVelocity = rbVelocity;
+        // Calculate target position
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+        if (desiredLane == 0)
+            targetPosition += Vector3.left * laneDistance;
+        else if (desiredLane == 2)
+            targetPosition += Vector3.right * laneDistance;
+
+        // Smooth move to lane
+        Vector3 moveVector = Vector3.zero;
+        moveVector.x = (targetPosition - transform.position).x * sideSpeed;
+        moveVector.z = forwardSpeed;
+
+        // --- Jump & Gravity ---
+        if (controller.isGrounded)
+        {
+            verticalVelocity = -1f;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                verticalVelocity = jumpForce;
+            }
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
+        moveVector.y = verticalVelocity;
+
+        // Apply movement
+        controller.Move(moveVector * Time.deltaTime);
     }
 }
