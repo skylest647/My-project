@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Transform player;
+    public float smoothSpeed = 0.1f;
+    private Vector3 offset;
+
     void Start()
     {
-        
+        // Maintain initial offset
+        offset = transform.position - player.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        Vector3 targetPos = new Vector3(player.position.x, transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, targetPos, smoothSpeed);
     }
 }
