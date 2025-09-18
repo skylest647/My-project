@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 1436519541212177250}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.02, y: -2.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -6.0712, y: -2.128, z: 0}
+  m_LocalScale: {x: 1.0035, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -181,5 +181,3 @@ MonoBehaviour:
   forwardSpeed: 10
   laneDistance: 4
   sideSpeed: 10
-  jumpForce: 7
-  gravity: -20
