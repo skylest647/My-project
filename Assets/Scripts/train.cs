@@ -27,6 +27,7 @@ public class Train : MonoBehaviour
 
     void Update()
     {
+        if (!PlayerMovement.gameActive) return;
         if (isSitting)
         {
             sitTimer += Time.deltaTime;
