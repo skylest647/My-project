@@ -205,11 +205,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 81647149299269639, guid: a592ce9b209d34bd18211fdef30bb314, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.09729
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 81647149299269639, guid: a592ce9b209d34bd18211fdef30bb314, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.43123
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 81647149299269639, guid: a592ce9b209d34bd18211fdef30bb314, type: 3}
       propertyPath: m_LocalPosition.z
@@ -555,11 +555,11 @@ PrefabInstance:
       objectReference: {fileID: 6723847253279452390}
     - target: {fileID: 7634379048922666822, guid: afbe08e8fa8204c98b675858e6ce25e9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.09729
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7634379048922666822, guid: afbe08e8fa8204c98b675858e6ce25e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.43123
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7634379048922666822, guid: afbe08e8fa8204c98b675858e6ce25e9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -608,10 +608,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2611319137412642294, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
       propertyPath: m_Name
-      value: Train
-      objectReference: {fileID: 0}
-    - target: {fileID: 2611319137412642294, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
-      propertyPath: m_TagString
       value: Train
       objectReference: {fileID: 0}
     - target: {fileID: 7919550670693035381, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
