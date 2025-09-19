@@ -119,6 +119,29 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &500375873 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2611319137412642294, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
+  m_PrefabInstance: {fileID: 9210934002364664288}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &500375878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500375873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89341b1617b268844ab56182b899c4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainMovement
+  moveSpeed: 5
+--- !u!50 &518185091 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2202149326619925442, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
+  m_PrefabInstance: {fileID: 1102147611061459172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1140348067 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3354803694935600908, guid: afbe08e8fa8204c98b675858e6ce25e9, type: 3}
@@ -138,9 +161,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 140200733382776778, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1436519541212177250, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436519541212177250, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1996983677495545359, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
       propertyPath: gameManager
@@ -190,6 +221,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4193377089350488262, guid: d0ba5fb7397b14b4987dc09b25742319, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 518185091}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -243,6 +278,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2064240981153243258, guid: a592ce9b209d34bd18211fdef30bb314, type: 3}
+      propertyPath: trainPrefab
+      value: 
+      objectReference: {fileID: 500375873}
     - target: {fileID: 2507829650004682653, guid: a592ce9b209d34bd18211fdef30bb314, type: 3}
       propertyPath: m_Name
       value: Trainspawner
@@ -610,6 +649,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Train
       objectReference: {fileID: 0}
+    - target: {fileID: 3913712535130263194, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7919550670693035381, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20
@@ -653,7 +696,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2611319137412642294, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 500375878}
   m_SourcePrefab: {fileID: 100100000, guid: 8ca7f95f5de4f4e21bdd83ead857a0aa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

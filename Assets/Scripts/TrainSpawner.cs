@@ -3,21 +3,18 @@ using System.Collections.Generic;
 
 public class TrainSpawner : MonoBehaviour
 {
-    
-    public GameObject trainPrefab;      
-    public float spawnY = 10f;          
+    public GameObject trainPrefab;     
+    public float spawnY = 10f;      
+    public float laneDistance = 2f;   
+    public int maxTrains = 2;         
+    public float minSpawnDelay = 1f;   
+    public float maxSpawnDelay = 3f;   
     public float moveSpeed = 5f;        
-    public float laneDistance = 2f;     
 
     private List<GameObject> trains = new List<GameObject>();
-    private int maxTrains = 2;
-
     private float spawnTimer = 0f;
-    public float minSpawnDelay = 1f;
-    public float maxSpawnDelay = 3f;
     private float nextSpawnTime = 0f;
-
-    private int lastLane = -1; 
+    private int lastLane = -1;
 
     void Start()
     {
@@ -26,39 +23,34 @@ public class TrainSpawner : MonoBehaviour
 
     void Update()
     {
-        // Move trains downward
-        for (int i = trains.Count - 1; i >= 0; i--)
-        {
-            GameObject train = trains[i];
-            train.transform.position += Vector3.down * moveSpeed * Time.deltaTime;
+        spawnTimer += Time.deltaTime;
 
-            if (train.transform.position.y < -10f)
-            {
-                Destroy(train);
-                trains.RemoveAt(i);
-            }
+        // Spawn new train if under maxTrains and timer reached
+        if (trains.Count < maxTrains && spawnTimer >= nextSpawnTime)
+        {
+            SpawnTrain();
+            spawnTimer = 0f;
+            SetNextSpawnTime();
         }
 
-        // Spawn new train if under max and timer reached
-        if (trains.Count < maxTrains)
+        // Remove trains that have moved off-screen
+        for (int i = trains.Count - 1; i >= 0; i--)
         {
-            spawnTimer += Time.deltaTime;
-            if (spawnTimer >= nextSpawnTime)
+            if (trains[i].transform.position.y < -10f)
             {
-                SpawnTrain();
-                spawnTimer = 0f;
-                SetNextSpawnTime();
+                Destroy(trains[i]);
+                trains.RemoveAt(i);
             }
         }
     }
 
     void SpawnTrain()
     {
-        // Random lane, avoid same as last
+        // Choose random lane, avoid same lane as last
         int lane;
         do
         {
-            lane = Random.Range(0, 3);
+            lane = Random.Range(0, 3); // 0,1,2
         } while (lane == lastLane && trains.Count > 0);
 
         lastLane = lane;
@@ -69,6 +61,23 @@ public class TrainSpawner : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(spawnX, spawnY, 0f);
         GameObject newTrain = Instantiate(trainPrefab, spawnPos, Quaternion.identity);
+
+        // Ensure train has Rigidbody2D
+        Rigidbody2D rb = newTrain.GetComponent<Rigidbody2D>();
+        if (rb == null) rb = newTrain.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        // Ensure train has BoxCollider2D with trigger enabled
+        BoxCollider2D col = newTrain.GetComponent<BoxCollider2D>();
+        if (col == null) col = newTrain.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;  // <-- Trigger so player can pass through
+
+        // Add TrainMovement if missing
+        if (newTrain.GetComponent<TrainMovement>() == null)
+        {
+            TrainMovement tm = newTrain.AddComponent<TrainMovement>();
+            tm.moveSpeed = moveSpeed;
+        }
 
         trains.Add(newTrain);
     }
