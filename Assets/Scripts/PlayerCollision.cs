@@ -3,14 +3,14 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     public GameManager gameManager;
-        void OnCollisionEnter2D(Collision2D collision)
+
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Train"))
+        if(other.CompareTag("Train"))
         {
             Debug.Log("Game Over triggered!");
             gameManager.GameOver();
+            PlayerMovement.gameActive = false; // stop player movement
         }
     }
-
 }

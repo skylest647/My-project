@@ -8,33 +8,39 @@ public class PlayerMovement : MonoBehaviour
     private float inputCooldown = 0.25f;
     private float lastInputTime = 0f;
     public static bool gameActive = true;
+
+    public Rigidbody2D rb; 
+
     void Update()
     {
         if (!gameActive) return;
-        else
+
+        float h = Input.GetAxis("Horizontal");
+
+        if (Time.time - lastInputTime > inputCooldown)
         {
-            float h = Input.GetAxis("Horizontal");
-
-            if (Time.time - lastInputTime > inputCooldown)
+            if (h > 0.5f)
             {
-                if (h > 0.5f)
-                {
-                    desiredLane = Mathf.Min(2, desiredLane + 1);
-                    lastInputTime = Time.time;
-                }
-                else if (h < -0.5f)
-                {
-                    desiredLane = Mathf.Max(0, desiredLane - 1);
-                    lastInputTime = Time.time;
-                }
+                desiredLane = Mathf.Min(2, desiredLane + 1);
+                lastInputTime = Time.time;
             }
-
-            float targetX = 0f;
-            if (desiredLane == 0) targetX = -laneDistance;
-            else if (desiredLane == 2) targetX = laneDistance;
-
-            Vector3 targetPosition = new Vector3(targetX, transform.position.y, transform.position.z);
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            else if (h < -0.5f)
+            {
+                desiredLane = Mathf.Max(0, desiredLane - 1);
+                lastInputTime = Time.time;
+            }
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (!gameActive) return;
+
+        float targetX = 0f;
+        if (desiredLane == 0) targetX = -laneDistance;
+        else if (desiredLane == 2) targetX = laneDistance;
+
+        Vector2 targetPos = new Vector2(targetX, rb.position.y);
+        rb.MovePosition(Vector2.MoveTowards(rb.position, targetPos, moveSpeed * Time.fixedDeltaTime));
     }
 }
